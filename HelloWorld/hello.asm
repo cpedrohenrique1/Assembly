@@ -1,18 +1,19 @@
-section .data
-mens db "Hello World!", 0xA
+section .data ; seção de dados constantes
+mens db "Hello World!", 0xA ; cria mensagem do tipo byte
+tam equ $- mens ; pega tamanho de mens
 
-segment .text
+segment .text ; seção de código
 global _start
-_start:
+_start: ; rotina principal
 
 imprimir:
-    mov edx, 0xD
-    mov ecx,mens
-    mov ebx, 0x1
-    mov eax, 0x4
-    int 0x80
+  mov eax, 0x4 ; código de chamada para sys_write
+  mov ebx, 0x1 ; código de chamada para stdout
+  mov ecx, mens ; endereço da mensagem
+  mov edx, tam ; tamanho da mensagem
+  int 0x80 ; chama o sistema
 
 fim:
-  mov eax, 0x1
-  mov ebx, 0x0
-  int 0x80
+  mov eax, 0x1 ; código de chamada para sys_exit
+  mov ebx, 0x0 ; código de chamada para sucesso
+  int 0x80 ; chama o sistema
