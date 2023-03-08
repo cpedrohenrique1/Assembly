@@ -15,5 +15,5 @@ imprimir:
 
 fim:
   mov eax, 0x1 ; código de chamada para sys_exit
-  mov ebx, 0x0 ; código de chamada para sucesso
+  mov ebx, 0x0 ; código de chamada para sucesso (retorna 0)
   int 0x80 ; chama o sistema
