@@ -27,14 +27,14 @@ read:
   mov [qde],eax ; quantidade de caracteres lidos
   int 0x80 ; chama o sistema
 
-print2:
+printMens2:
   mov eax, 0x4
   mov ebx, 0x1
   mov ecx,mens2
   mov edx,tam2
   int 0x80
 
-print:
+printOutput:
   mov eax, 0x4
   mov ebx, 0x1
   mov ecx,buff
