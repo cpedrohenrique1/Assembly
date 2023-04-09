@@ -5,7 +5,6 @@ mens2 db "A letra u esta na mensagem digitada", 0xA
 tam2 equ $-mens2
 mens3 db "A letra u nao esta na mensagem inserida", 0xA
 tam3 equ $-mens3
-var dw 0
 
 segment .bss
 entrada resb 50
@@ -39,21 +38,16 @@ mov edx,50
 call read
 mov [qde],eax
 
-xor esi,esi
+xor esi,esi ; variavel contador recebe 0
 
 verificarletra:
 mov al,[entrada + esi]
-cmp al, "u"
-inc var
+cmp al, byte "u"
+je printmens2
+inc esi
 cmp esi, [qde]
-je testarvar
-jmp verificarletra
+je verificarletra
 int 0x80
-
-testarvar:
-cmp var, 0
-je printmens3
-jmp printmens2
 
 printmens3:
 mov ecx,mens3
