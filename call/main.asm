@@ -46,8 +46,8 @@ cmp al, byte "u"
 je printmens2
 inc esi
 cmp esi, [qde]
-je verificarletra
-int 0x80
+je printmens3
+jmp verificarletra
 
 printmens3:
 mov ecx,mens3
