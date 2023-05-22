@@ -5,13 +5,13 @@ mens2 db "Insira outro numero: ", 10
 tam2 equ $- mens2
 result db "A soma eh: "
 tamresultado equ $- result
+nmr1 dd 0
+nmr2 dd 0
+soma dd 0
 
 section .bss
-nmr1 resb 10
-nmr2 resb 10
-soma resd 1
+str1 resb 10
 qde resd 1
-qde2 resd 1
 
 section .text
 print:
@@ -26,49 +26,55 @@ mov ebx, 0 ; fd teclado
 int 80h
 ret
 
+addnum:
+mul eax, 10
+add eax, [str1 + esi]
+mov [nmr1], eax
+jmp verificarnum
+
 caracter:
-cmp al, byte "0"
-je verificarnum
-cmp al, byte "1"
-je verificarnum
-cmp al, byte "2"
-je verificarnum
-cmp al, byte "3"
-je verificarnum
-cmp al, byte "4"
-je verificarnum
-cmp al, byte "5"
-je verificarnum
-cmp al, byte "6"
-je verificarnum
-cmp al, byte "7"
-je verificarnum
-cmp al, byte "8"
-je verificarnum
-cmp al, byte "9"
-je verificarnum
+cmp eax, byte "0"
+je addnum
+cmp eax, byte "1"
+je addnum
+cmp eax, byte "2"
+je addnum
+cmp eax, byte "3"
+je addnum
+cmp eax, byte "4"
+je addnum
+cmp eax, byte "5"
+je addnum
+cmp eax, byte "6"
+je addnum
+cmp eax, byte "7"
+je addnum
+cmp eax, byte "8"
+je addnum
+cmp eax, byte "9"
+je addnum
 jmp print1
 
 caracter2:
-cmp al, byte "0"
+cmp eax, byte "0"
 je verificarnum2
-cmp al, byte "1"
+cmp eax, byte "1"
 je verificarnum2
-cmp al, byte "2"
+cmp eax, byte "2"
 je verificarnum2
-cmp al, byte "3"
+cmp eax, byte "3"
 je verificarnum2
-cmp al, byte "4"
+cmp eax, byte "4"
 je verificarnum2
-cmp al, byte "5"
+cmp eax, byte "5"
 je verificarnum2
-cmp al, byte "6"
+cmp eax, byte "6"
 je verificarnum2
-cmp al, byte "7"
+cmp eax, byte "7"
 je verificarnum2
-cmp al, byte "8"
+cmp eax, byte "8"
 je verificarnum2
-cmp al, byte "9"
+cmp eax, byte "9"
 je verificarnum2
 jmp print2
 
@@ -91,7 +97,7 @@ mov edx, tam1
 call print
 
 read1:
-mov ecx,nmr1
+mov ecx,str1
 mov edx,10
 call read
 mov [qde], eax
@@ -100,7 +106,7 @@ je print1
 
 xor esi, esi
 verificarnum:
-mov al, [nmr1 + esi]
+mov eax, [str1 + esi]
 inc esi
 cmp esi, [qde]
 je print2
