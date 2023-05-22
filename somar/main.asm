@@ -27,7 +27,16 @@ int 80h
 ret
 
 addnum:
-mul eax, 10
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
 add eax, [str1 + esi]
 mov [nmr1], eax
 jmp verificarnum
@@ -55,38 +64,43 @@ cmp eax, byte "9"
 je addnum
 jmp print1
 
+addnum2:
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax,eax
+add eax, [str1 + esi]
+mov [nmr2], eax
+jmp verificarnum
+
 caracter2:
 cmp eax, byte "0"
-je verificarnum2
+je addnum2
 cmp eax, byte "1"
-je verificarnum2
+je addnum2
 cmp eax, byte "2"
-je verificarnum2
+je addnum2
 cmp eax, byte "3"
-je verificarnum2
+je addnum2
 cmp eax, byte "4"
-je verificarnum2
+je addnum2
 cmp eax, byte "5"
-je verificarnum2
+je addnum2
 cmp eax, byte "6"
-je verificarnum2
+je addnum2
 cmp eax, byte "7"
-je verificarnum2
+je addnum2
 cmp eax, byte "8"
-je verificarnum2
+je addnum2
 cmp eax, byte "9"
-je verificarnum2
+je addnum2
 jmp print2
-
-multnumber:
-mul eax, 10
-add eax, [nmr1 + esi]
-jmp numero1
-
-multnumber2:
-mul eax, 10
-add eax, [nmr2 + esi]
-jmp printsoma
 
 global _start
 _start:
@@ -118,18 +132,18 @@ mov edx, tam2
 call print
 
 read2:
-mov ecx, nmr2
+mov ecx, str1
 mov edx,10
 call read
-mov [qde2], eax
+mov [qde], eax
 cmp eax,1
 je print2
 
 xor esi, esi
 verificarnum2:
-mov al, [nmr2 + esi]
+mov eax, [str1 + esi]
 inc esi
-cmp esi, [qde2]
+cmp esi, [qde]
 je printresult
 jmp caracter2
 
@@ -138,30 +152,15 @@ mov ecx, result
 mov edx, tamresultado
 call print
 
-xor esi, esi
-xor eax, eax
-numero1:
-mov eax, [nmr1 + esi]
-sub eax, "0"
-inc esi
-cmp esi, [qde]
-je numero2
-jmp multnumber
-
-mov [qde], eax
-
-xor eax, eax
-xor esi, esi
-numero2:
-mov eax, [nmr2 + esi]
-sub eax, "0"
-inc esi
-cmp esi, [qde2]
-je printsoma
-jmp multnumber2
+somar:
+mov eax, [nmr1]
+add eax, [nmr2]
+add eax, 48
+mov [soma], eax
 
 printsoma:
-add eax, [qde]
+mov ecx, soma
+mov edx, 1
 call print
 
 fim:
