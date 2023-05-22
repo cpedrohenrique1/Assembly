@@ -95,6 +95,8 @@ mov ecx,nmr1
 mov edx,10
 call read
 mov [qde], eax
+cmp eax, 1
+je print1
 
 xor esi, esi
 verificarnum:
@@ -114,6 +116,8 @@ mov ecx, nmr2
 mov edx,10
 call read
 mov [qde2], eax
+cmp eax,1
+je print2
 
 xor esi, esi
 verificarnum2:
