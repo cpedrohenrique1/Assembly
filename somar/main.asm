@@ -1,16 +1,16 @@
 section .data
 mens1 db "Insira um numero: ", 10
-tam1 equ $- mens1
+tammens1 equ $- mens1
 mens2 db "Insira outro numero: ", 10
-tam2 equ $- mens2
-result db "A soma eh: "
-tamresultado equ $- result
+tammens2 equ $- mens2
+resultado db "A soma eh: "
+tamresultado equ $- resultado
 nmr1 dd 0
 nmr2 dd 0
 soma dd 0
 
 section .bss
-str1 resb 10
+entrada resb 10
 qde resd 1
 
 section .text
@@ -20,147 +20,96 @@ mov ebx, 1 ; fd tela
 int 80h
 ret
 
-read:
+readver:
 mov eax, 3 ; servico read
 mov ebx, 0 ; fd teclado
+mov ecx, entrada
+mov edx, 10
 int 80h
+mov [qde], eax
+dec dword [qde]
+cmp dword [qde], 0
+je readver
+
+xor esi, esi
+lacover:
+mov al, [entrada + esi]
+sub al, 48
+cmp al, 9
+ja readver
+inc esi
+cmp esi, [qde]
+je saidolaco
+
+saidolaco:
 ret
 
-addnum:
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax, [str1 + esi]
+converternum:
+mov eax, [entrada + esi]
+sub eax, 48
+inc esi
+
+converternum2:
+mov ecx, 10
+mul ecx
 mov [nmr1], eax
-jmp verificarnum
+mov eax, [entrada + esi]
+sub eax, 48
+add eax, [nmr1]
+cmp esi, [qde]
+je saidoconverter
+jmp converternum2
 
-caracter:
-cmp eax, byte "0"
-je addnum
-cmp eax, byte "1"
-je addnum
-cmp eax, byte "2"
-je addnum
-cmp eax, byte "3"
-je addnum
-cmp eax, byte "4"
-je addnum
-cmp eax, byte "5"
-je addnum
-cmp eax, byte "6"
-je addnum
-cmp eax, byte "7"
-je addnum
-cmp eax, byte "8"
-je addnum
-cmp eax, byte "9"
-je addnum
-jmp print1
-
-addnum2:
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax,eax
-add eax, [str1 + esi]
-mov [nmr2], eax
-jmp verificarnum
-
-caracter2:
-cmp eax, byte "0"
-je addnum2
-cmp eax, byte "1"
-je addnum2
-cmp eax, byte "2"
-je addnum2
-cmp eax, byte "3"
-je addnum2
-cmp eax, byte "4"
-je addnum2
-cmp eax, byte "5"
-je addnum2
-cmp eax, byte "6"
-je addnum2
-cmp eax, byte "7"
-je addnum2
-cmp eax, byte "8"
-je addnum2
-cmp eax, byte "9"
-je addnum2
-jmp print2
+saidoconverter:
+ret
 
 global _start
 _start:
 
 print1:
 mov ecx, mens1
-mov edx, tam1
+mov edx, tammens1
 call print
 
 read1:
-mov ecx,str1
+mov ecx, entrada
 mov edx,10
-call read
-mov [qde], eax
-cmp eax, 1
-je print1
+call readver
 
 xor esi, esi
-verificarnum:
-mov eax, [str1 + esi]
-inc esi
-cmp esi, [qde]
-je print2
-jmp caracter
+call converternum
+mov [nmr1], eax
 
 print2:
 mov ecx, mens2
-mov edx, tam2
+mov edx, tammens2
 call print
 
 read2:
-mov ecx, str1
+mov ecx, entrada
 mov edx,10
-call read
-mov [qde], eax
-cmp eax,1
-je print2
+call readver
 
 xor esi, esi
-verificarnum2:
-mov eax, [str1 + esi]
-inc esi
-cmp esi, [qde]
-je printresult
-jmp caracter2
+call converternum
+mov [nmr2], eax
 
 printresult:
-mov ecx, result
+mov ecx, resultado
 mov edx, tamresultado
 call print
 
 somar:
 mov eax, [nmr1]
 add eax, [nmr2]
-add eax, 48
 mov [soma], eax
 
 printsoma:
+mov eax, [soma]
+add eax, 48
+mov [soma], eax
 mov ecx, soma
-mov edx, 1
+mov edx, 10
 call print
 
 fim:
