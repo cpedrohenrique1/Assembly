@@ -40,6 +40,7 @@ ja readver
 inc esi
 cmp esi, [qde]
 je saidolaco
+jmp lacover
 
 saidolaco:
 ret
@@ -56,12 +57,10 @@ mov [nmr1], eax
 mov eax, [entrada + esi]
 sub eax, 48
 add eax, [nmr1]
+inc esi
 cmp esi, [qde]
-je saidoconverter
+je saidolaco
 jmp converternum2
-
-saidoconverter:
-ret
 
 global _start
 _start:
