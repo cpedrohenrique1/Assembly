@@ -35,6 +35,7 @@ section .text
     lacover:
         mov al, [entrada + esi]
         sub al, 48
+        ; mov [entrada + esi], al
         cmp al, 9
         ja readver
         inc esi
@@ -48,9 +49,19 @@ section .text
     converternum:
         xor eax, eax  ; Limpa eax antes do cálculo
         xor ecx, ecx  ; Limpa ecx para servir de contador
+        ; xor ebx, ebx
+        ; xor esi, esi
     converternum1:
+        ; mov al, [entrada + esi]
+        ; inc esi
+        ; cmp esi, [qde]
+        ; je saidolaco
+        ; mov bl, [entrada + esi]
+        ; mov ecx, 10
+        ; mul ecx
+        ; add eax, ebx
         mov edx, 10
-        mul edx       ; Multiplica eax por 10
+        mul edx     ; Multiplica eax por 10
         movzx edx, byte [entrada + ecx]  ; Lê o dígito em edx
         sub dl, '0'   ; Converte o dígito em valor numérico
         add eax, edx  ; Adiciona o dígito em eax
@@ -68,8 +79,6 @@ section .text
         call print
 
     read1:
-        mov ecx, entrada
-        mov edx, 10
         call readver
 
     xor esi, esi
@@ -82,8 +91,6 @@ section .text
         call print
 
     read2:
-        mov ecx, entrada
-        mov edx, 10
         call readver
 
     xor esi, esi
